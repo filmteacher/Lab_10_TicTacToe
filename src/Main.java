@@ -19,7 +19,7 @@
 //3.Now create a java main class called TicTacToe. This file will have all the main logic for the game.
 public class TicTacToe
 {
-    //6.So, within the class, before main() declare the board array and the constants that define it:
+    //6.Within the class, before main() declare the board array and the constants that define it:
     private static final int ROW = 3;
     private static final int COL = 3;
     private static String board [][] = new String[ROW][COL];
@@ -29,11 +29,21 @@ public class TicTacToe
 
     public static void main(String[] args)
     {
+        //Initialize variables
+        int counter = 0;
+        String player = "";
+
         //Clear the board
+        clearBoard();
+
         //Set move counter to 0
+        counter = 0;
+
         //Set the player to X (since X always moves first)
+        player = "X";
 
         //Show the board
+        displayBoard();
 
         //do while loop that repeats until the user gives us coordinates for a valid cell which is simply one that has not yet been used
         //get the coordinates for the move which should be 1 – 3 for the row and col
