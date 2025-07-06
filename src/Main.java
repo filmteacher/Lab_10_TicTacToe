@@ -1,8 +1,9 @@
 import java.util.Scanner;
 
 //TO-DO
-//write partial tie logic
-//write main method
+// it's not correctly finding a full tie - may be the incomplete partial tie logic
+// write partial tie logic
+// it is detecting the win and successfully playing again
 
 /*
  *Lab 10
@@ -20,99 +21,99 @@ class TicTacToe
 
     public static void main(String[] args)
     {
-        //Initialize variables
-        int counter = 0;
-        String player = "";
-        Scanner in = new Scanner(System.in);
-        int rowMove = 0;
-        int colMove = 0;
-        boolean valid = false;
-        boolean won = false;
-        boolean tied = false;
         boolean again = true;
-
-        //Clear the board
-        clearBoard();
-
-        //Set move counter to 0
-        counter = 0;
-
-        //Set the player to X (since X always moves first)
-        player = "X";
-
-        //Show the board
-        displayBoard();
-
-        //do while loop that repeats until the user gives us coordinates for a cell with a space in it
-        do
+        do //Outer do while loop for play again
         {
-            System.out.println("Player " + player + ", it's your turn.");
-            //get the coordinates for the move which should be 1 – 3 for the row and col
-            //These we can do with our getRangedInt() from simpleInput
-            //convert the player move coordinates to the array indices which are 0 – 2 by subtracting 1
-            rowMove = (SafeInput.getRangedInt(in, "Enter the row number for your move", 1, 3) - 1);
-            colMove = (SafeInput.getRangedInt(in, "Enter the column number for your move", 1, 3) - 1);
-            valid = isValidMove(rowMove, colMove);
-        } while (valid == false); //Is the player's move legal?
+            //Initialize variables
+            int counter = 0;
+            String player = "";
+            Scanner in = new Scanner(System.in);
+            int rowMove = 0;
+            int colMove = 0;
+            boolean valid = false;
+            boolean won = false;
+            boolean tied = false;
 
-        //record the valid move on the board
-        //We set the cell to hold the user value of either X or O.
-        //We store this in a variable called player
-        board[rowMove][colMove] = player;
+            //Clear the board
+            clearBoard();
 
-        //increment the move counter
-        counter++;
+            //Set move counter to 0
+            counter = 0;
 
-        //Did the player's move end the game (WIN or TIE)?
-        //Wins:
-        //Can’t have a Win before move 4.
-        //There are 8 ways to win ("win vectors"):
-            //3 row wins
-            //3 column wins
-            //2 diagonal wins
-        //We can make it more efficient by only testing for the wins that use the last move coordinates instead of exhaustively testing for every possible win for the given player
-        //(Clearly, only the wins from the latest move need to be tested.)
-
-        //if counter > 4 check for a win
-
-        won = isWin(player);
-
-        //Ties:
-        //If we have 9 moves (which fills the board) and we don’t have a win, then we have a full board TIE.
-            //So after checking for a win and not getting one, if we have 9 moves then the game is over with a full board tie.
-        //If after 7 moves we have not filled the board but neither player can win
-            //each of the 8 win vectors (row, col, diagonal) must be eliminated.
-            //If a win vector contains both and X and an O, that vector is eliminated.
-            //If all are eliminated then no win is possible even though we have open cells still.
-
-        tied = isTie();
-
-        //If there is a win or tie announce it and then prompt the players to play again or exit.
-        if(won)
-        {
-            System.out.println("Player " + player + " wins!");
-        }
-        else if(tied)
-        {
-            System.out.println("It's a tie!");
-        }
-
-        again = SafeInput.getYNConfirm(in, "Would you like to play again?");
-
-        //Toggle the player (i.e. X becomes O, O becomes X)
-        //We store this in a variable called player
-        if (player == "X")
-        {
-            player = "O";
-        }
-        else {
+            //Set the player to X (since X always moves first)
             player = "X";
-        }
 
-        //Outer do while loop for play again, inner do while loop for 1-8, then 3-4 in its own do while loop.
+            do //Inner do while loop for player turn
+            {
+                //Show the board
+                displayBoard();
+
+                do //do while loop that repeats until the user gives us coordinates for a cell with a space in it
+                {
+                    System.out.print("Player " + player + ", it's your turn.");
+                    //get the coordinates for the move which should be 1 – 3 for the row and col
+                    //These we can do with our getRangedInt() from simpleInput
+                    //convert the player move coordinates to the array indices which are 0 – 2 by subtracting 1
+                    rowMove = (SafeInput.getRangedInt(in, "Enter the row number for your move", 1, 3) - 1);
+                    colMove = (SafeInput.getRangedInt(in, "Enter the column number for your move", 1, 3) - 1);
+                    valid = isValidMove(rowMove, colMove);
+
+                    if (valid == false) {
+                        System.out.println("That is not a valid move. Try again.");
+                    }
+                }
+                while (valid == false); //Is the player's move legal?
+
+                //record the valid move on the board
+                //We set the cell to hold the user value of either X or O.
+                //We store this in a variable called player
+                board[rowMove][colMove] = player;
+
+                //increment the move counter
+                counter++;
+
+                //Did the player's move end the game (WIN or TIE)?
+                //Can’t have a Win before move 4.
+                if (counter > 4) {
+                    won = isWin(player);
+                }
+                //Can't have a tie before move 7.
+                else if (counter > 6) {
+                    tied = isTie();
+                }
+
+                //If there is a win or tie announce it...
+                if (won)
+                {
+                    displayBoard();
+                    System.out.println("Player " + player + " wins!");
+                }
+                else if (tied)
+                {
+                    displayBoard();
+                    System.out.println("It's a tie!");
+                }
+                else {   //Toggle the player (i.e. X becomes O, O becomes X)
+                    //We store this in a variable called player
+                    if (player == "X") {
+                        player = "O";
+                    } else {
+                        player = "X";
+                    }
+                }
+            } //End of do while loop for player turn
+            while (!won && !tied);
+
+            //...then prompt the players to play again or exit.
+            again = SafeInput.getYNConfirm(in, "Would you like to play again?");
+
+        } //End of do while loop for play again
+        while (again);
+
+        System.out.println("Thank you for playing!");
     }
 
-    //7.The helper methods will all go in the main file in the class and after the main() method.
+    //The helper methods will all go in the main file in the class and after the main() method.
 
     //private static void clearBoard()
     //sets all the board elements to a space
@@ -138,7 +139,7 @@ class TicTacToe
         {
             for(int c = 0; c < COL; c++)
             {
-                System.out.printf("|%3s", board[r][c]);
+                System.out.printf("| %s ", board[r][c]);
             }
             System.out.println("|");
             System.out.println("-------------");
@@ -154,6 +155,10 @@ class TicTacToe
 
     //private static boolean isWin(String player)
     //calls methods to check for a win for the current player.
+    //There are 8 ways to win ("win vectors"):
+    //3 row wins
+    //3 column wins
+    //2 diagonal wins
     private static boolean isWin(String player)
     {
         if(isColWin(player) ||
@@ -201,18 +206,11 @@ class TicTacToe
 
     // private static boolean isPartialTie()
     // there is an X and an O in every win vector (i.e. all possible 8 wins are blocked by having both and X and an O in them.)
-    //private static boolean isPartialTie()
-    //{
-        //need partial tie logic to replace below
-    //
-                    //board[1][c].equals() &&
-                    //board[2][c].equals())
-            //{
-                //return true; // there is a partial tie
-            //}
-        //}
-        //return false; // no partial tie
-    //}
+    private static boolean isPartialTie()
+    //need actual partial tie logic
+    {
+        return false; // no partial tie
+    }
 
     //private static boolean isColWin(String player)
     //checks for a col win for specified player
