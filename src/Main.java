@@ -17,7 +17,7 @@
 //int colMove = SafeInput.getRangedInt(…);
 
 //3.Now create a java main class called TicTacToe. This file will have all the main logic for the game.
-public class TicTacToe
+class TicTacToe
 {
     //6.Within the class, before main() declare the board array and the constants that define it:
     private static final int ROW = 3;
@@ -115,6 +115,7 @@ public class TicTacToe
     //shows the Tic Tac Toe board used as part of the prompt for the user's move choice.
     private static void displayBoard()
     {
+        System.out.println("-------------");
         for(int r = 0; r < ROW; r++)
         {
             for(int c = 0; c < COL; c++)
@@ -122,6 +123,7 @@ public class TicTacToe
                 System.out.printf("|%3s", board[r][c]);
             }
             System.out.println("|");
+            System.out.println("-------------");
         }
     }
 
@@ -134,7 +136,7 @@ public class TicTacToe
 
     //private static boolean isWin(String player)
     //calls methods to check for a win for the current player.
-    private static boolean isWin(String player)
+    /*private static boolean isWin(String player)
     {
         if(isColWin(player) ||
                 isRowWin(player) ||
@@ -143,11 +145,11 @@ public class TicTacToe
             return true;
         }
         return false; // there is no win
-    }
+    }*/
 
     //private static boolean isTie()
     //calls methods to check for a tie
-    private static boolean isTie()
+    /*private static boolean isTie()
     {
         if(isFullTie() ||
                 isPartialTie())
@@ -155,41 +157,41 @@ public class TicTacToe
             return true; // there is a tie
         }
         return false; // there is no tie
-    }
+    }*/
 
     // private static boolean isFullTie()
     // all spaces on the board are filled
-    private static boolean isFullTie()
-    {
+    //private static boolean isFullTie()
+    //{
         //need full tie logic to replace below
         //for(int c = 0; c < COL; c++)
         //{
             //if (board[0][c].equals() &&
                     //board[1][c].equals() &&
                     //board[2][c].equals())
-            {
-                return true; // there is a full tie
-            }
-        }
-        return false; // no full tie
-    }
+            //{
+               //return true; // there is a full tie
+            //}
+        //}
+        //return false; // no full tie
+    //}
 
     // private static boolean isPartialTie()
     // there is an X and an O in every win vector (i.e. all possible 8 wins are blocked by having both and X and an O in them.)
-    private static boolean isPartialTie()
-    {
+    //private static boolean isPartialTie()
+    //{
         //need partial tie logic to replace below
         //for(int c = 0; c < COL; c++)
         //{
             //if (board[0][c].equals() &&
                     //board[1][c].equals() &&
                     //board[2][c].equals())
-            {
-                return true; // there is a partial tie
-            }
-        }
-        return false; // no partial tie
-    }
+            //{
+                //return true; // there is a partial tie
+            //}
+        //}
+        //return false; // no partial tie
+    //}
 
     //private static boolean isColWin(String player) // checks for a col win for specified player
     //Given the code example for isRowWin() you should be easily able to code the isColWin().
