@@ -1,10 +1,5 @@
 import java.util.Scanner;
 
-//TO-DO
-// it's not correctly finding a full tie - may be the incomplete partial tie logic
-// write partial tie logic
-// it is detecting the win and successfully playing again
-
 /*
  *Lab 10
  *Two-player Tic Tac Toe game
