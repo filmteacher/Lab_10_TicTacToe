@@ -77,8 +77,9 @@ class TicTacToe
                 if (counter > 4) {
                     won = isWin(player);
                 }
+
                 //Can't have a tie before move 7.
-                else if (counter > 6) {
+                if (counter > 6) {
                     tied = isTie();
                 }
 
@@ -184,13 +185,20 @@ class TicTacToe
 
     // private static boolean isFullTie()
     // all spaces on the board are filled
-    private static boolean isFullTie() {
+    private static boolean isFullTie()
+    {
         int occupied = 0;
-        for (int r = 0; r < ROW; r++) {
-            for (int c = 0; c < COL; c++) {
-                if (!board[r][c].equals(" "))
+        for (int r = 0; r < ROW; r++)
+        {
+            for (int c = 0; c < COL; c++)
+            {
+                if (board[r][c].equals("X") || board[r][c].equals("O"))
                 {
                     occupied++;
+                }
+                else
+                {
+                    continue;
                 }
             }
         }
@@ -198,7 +206,8 @@ class TicTacToe
         if (occupied == 9)
         {
             return true; // there is a full tie
-        } else
+        }
+        else
         {
             return false; // no full tie
         }
@@ -207,9 +216,102 @@ class TicTacToe
     // private static boolean isPartialTie()
     // there is an X and an O in every win vector (i.e. all possible 8 wins are blocked by having both and X and an O in them.)
     private static boolean isPartialTie()
-    //need actual partial tie logic
     {
-        return false; // no partial tie
+        int totalTies = 0;
+        boolean hasOneX = false;
+        boolean hasOneO = false;
+
+        //check rows for tie
+        for (int r = 0; r < ROW; r++)
+        {
+            hasOneX = false;
+            hasOneO = false;
+            for (int c = 0; c < COL; c++)
+            {
+                if (board[r][c].equals("X"))
+                {
+                    hasOneX = true;
+                }
+                if (board[r][c].equals("O"))
+                {
+                    hasOneO = true;
+                }
+                if (hasOneX && hasOneO)
+                {
+                    totalTies++;  // there is both an X and O
+                }
+            }
+        }
+
+        //check columns for tie
+        for (int c = 0; c < COL; c++)
+        {
+            hasOneX = false;
+            hasOneO = false;
+            for (int r = 0; r < ROW; r++)
+            {
+                if (board[r][c].equals("X"))
+                {
+                    hasOneX = true;
+                }
+                if (board[r][c].equals("O"))
+                {
+                    hasOneO = true;
+                }
+                if (hasOneX && hasOneO)
+                {
+                    totalTies++; // there is both an X and O
+                }
+            }
+        }
+
+        //check first diagonal for tie
+        hasOneX = false;
+        hasOneO = false;
+        if (board[0][0].equals("X") ||
+                board[1][1].equals("X") ||
+                board[2][2].equals("X"))
+        {
+            hasOneX = true;
+        }
+        if (board[0][0].equals("O") ||
+                board[1][1].equals("O") ||
+                board[2][2].equals("O"))
+        {
+            hasOneO = true;
+        }
+        if (hasOneX && hasOneO)
+        {
+            totalTies++;  // there is both an X and O
+        }
+
+        //check second diagonal for tie
+        hasOneX = false;
+        hasOneO = false;
+        if (board[0][2].equals("X") ||
+                board[1][1].equals("X") ||
+                board[2][0].equals("X"))
+        {
+            hasOneX = true;
+        }
+        if (board[0][2].equals("O") ||
+                board[1][1].equals("O") ||
+                board[2][0].equals("O"))
+        {
+            hasOneO = true;
+        }
+        if (hasOneX && hasOneO)
+        {
+            totalTies++; // there is both an X and O
+        }
+
+        if (totalTies >= 8)
+        {
+            return true; // there is a partial tie
+        } else
+        {
+            return false; // no partial tie
+        }
     }
 
     //private static boolean isColWin(String player)
@@ -266,10 +368,4 @@ class TicTacToe
             return false; // no diagonal win
 
     }
-
-    //9.Need screenshots:
-    //X wins
-    //O wins
-    //2 different ties
-
 }
